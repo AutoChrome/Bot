@@ -21,6 +21,9 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 */
 
 function download(url, memberId){
+    if(!fs.existsSync(`./members`)) {
+        fs.mkdir(`./members`, function(error){ if(error){console.log(error)} });
+    }
     if(!fs.existsSync(`./members/${memberId}`)){
         fs.mkdir(`./members/${memberId}`, function(error){ if(error){console.log(error)}});
     }
