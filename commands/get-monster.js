@@ -3,7 +3,7 @@ const { Client, MessageManager, MessageSelectMenu } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('monster')
+		.setName('show')
 		.setDescription('Gets your monster info. (Must have a valid JSON uploaded)')
         .addStringOption(option =>
             option.setName('monster')
