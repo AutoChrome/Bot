@@ -1774,8 +1774,7 @@ module.exports = {
       // main stat
       ratio +=
         this.rune.mainstat[rune.pri_eff[0]].max[this.isAncient(rune) ? rune.class - 10 : rune.class] / this.rune.mainstat[rune.pri_eff[0]].max[6];
-      console.log(this.rune.mainstat[rune.pri_eff[0]].max[this.isAncient(rune) ? rune.class - 10 : rune.class] + " / " + this.rune.mainstat[rune.pri_eff[0]].max[6]);
-  
+
       // sub stats
       rune.sec_eff.forEach((stat) => {
         let value = stat[3] && stat[3] > 0 ? stat[1] + stat[3] : stat[1];

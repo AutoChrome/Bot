@@ -294,14 +294,16 @@ function displayMonster(monster, lastUploaded, titleCheck, memberName, rtaRunes,
             ${runes[i].sec_stats[3][0]}: ${runes[i].sec_stats[3][1]}
             `, true);
         }else{
+            sub = "";
+            for(k = 0; k < runes[i].sec_stats.length; k++) {
+                sub += runes[i].sec_stats[k][0] + ": " + runes[i].sec_stats[0][1] + "\n";
+            }
             exampleEmbed.addField(`Slot ${runes[i].slot} - ${runes[i].set}`, 
             `Level: ${runes[i].level} [${runes[i].grade}]
             Efficiency: ${runes[i].eff.current}/${runes[i].eff.max}
             **${runes[i].pri_stat[0]}**: ${runes[i].pri_stat[1]}
-            ${runes[i].sec_stats[0][0]}: ${runes[i].sec_stats[0][1]}
-            ${runes[i].sec_stats[1][0]}: ${runes[i].sec_stats[1][1]}
-            ${runes[i].sec_stats[2][0]}: ${runes[i].sec_stats[2][1]}
-            ${runes[i].sec_stats[3][0]}: ${runes[i].sec_stats[3][1]}
+            ${sub}
+            
             `, true);
         }
     }
