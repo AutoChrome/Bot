@@ -505,7 +505,7 @@ client.on('interactionCreate', async interaction => {
         case "upload":
             uploadWait.push(interaction.member.id);
             break;
-        case "monster":
+        case "show":
             memberId = interaction.member.id;
             account = getAccount(memberId);
             if(account.error == true){
