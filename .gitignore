@@ -1,0 +1,4 @@
+node_modules
+members/*
+workspace.code-workspace
+config.json
