@@ -457,12 +457,36 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', function(message){
-    //Check if user is trying to upload file.
-    if(uploadWait.includes(message.member.id))
-    {
-        //Check if there was a file, if not cancel the upload request.
-        if(message.attachments.size == 0)
+    if(uploadWait.length > 0) {
+        //Check if user is trying to upload file.
+        if(uploadWait.includes(message.member.id))
         {
+            //Check if there was a file, if not cancel the upload request.
+            if(message.attachments.size == 0)
+            {
+                for( var i = 0; i < uploadWait.length; i++)
+                {
+                    if(uploadWait[i] == message.member.id)
+                    {
+                        uploadWait.splice(i, 1);
+                    }
+                }
+                message.channel.send("Upload action cancelled due to no attachments.");
+                return false;
+            }
+
+            //Get URL
+            downloadURL = message.attachments.first().url;
+
+            //Check that the file is a JSON
+            if(downloadURL.slice(-5).toUpperCase() != '.JSON')
+            {
+                message.channel.send('File was not a JSON. Please try again.');
+                return false;
+            }
+
+            download(downloadURL, message.member.id);
+            message.channel.send('Success! JSON has been added.');
             for( var i = 0; i < uploadWait.length; i++)
             {
                 if(uploadWait[i] == message.member.id)
@@ -470,30 +494,8 @@ client.on('messageCreate', function(message){
                     uploadWait.splice(i, 1);
                 }
             }
-            message.channel.send("Upload action cancelled due to no attachments.");
-            return false;
+            return true;
         }
-
-        //Get URL
-        downloadURL = message.attachments.first().url;
-
-        //Check that the file is a JSON
-        if(downloadURL.slice(-5).toUpperCase() != '.JSON')
-        {
-            message.channel.send('File was not a JSON. Please try again.');
-            return false;
-        }
-
-        download(downloadURL, message.member.id);
-        message.channel.send('Success! JSON has been added.');
-        for( var i = 0; i < uploadWait.length; i++)
-        {
-            if(uploadWait[i] == message.member.id)
-            {
-                uploadWait.splice(i, 1);
-            }
-        }
-        return true;
     }
 });
 
