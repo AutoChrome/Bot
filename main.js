@@ -313,13 +313,14 @@ function displayMonster(monster, lastUploaded, titleCheck, memberName, rtaRunes,
     }
 
     for(j = 0; j < artifacts.length; j++){
+        sub = "";
+        for(l = 0; l < artifacts[j].sec_stats.length; l++) {
+            sub += artifacts[j].sec_stats[l][0](artifacts[j].sec_stats[l][1]) + "\n";
+        }
         exampleEmbed.addField(`Type ${artifacts[j].type}`, 
         `Level: ${artifacts[j].level} [${artifacts[j].grade}]
         **${artifacts[j].pri_stat[0]}**: ${artifacts[j].pri_stat[1]}
-        ${artifacts[j].sec_stats[0][0](artifacts[j].sec_stats[0][1])}
-        ${artifacts[j].sec_stats[1][0](artifacts[j].sec_stats[1][1])}
-        ${artifacts[j].sec_stats[2][0](artifacts[j].sec_stats[2][1])}
-        ${artifacts[j].sec_stats[3][0](artifacts[j].sec_stats[3][1])}
+        ${sub}
         `, true);
     }
     
