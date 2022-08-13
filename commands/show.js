@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Client, MessageManager, MessageSelectMenu } = require('discord.js');
+const { Client } = require('discord.js');
+const { Account } = require('../models/Account.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,5 +11,8 @@ module.exports = {
             .setDescription("The monster you wish to view")
             .setRequired(true)),
 	async execute(interaction) {
+		console.log(`interaction: ${interaction.user.id}`)
+		account = new Account(interaction.user.id);
+		console.log(account);
 	},
 };
