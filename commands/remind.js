@@ -30,7 +30,11 @@ module.exports = {
 		.addRoleOption(option =>
 			option.setName('role')
 			.setDescription("The role that will be pinged.")
-			.setRequired(true))
+			.setRequired(false))
+		.addUserOption(option =>
+			option.setName('mention')
+			.setDescription("The user that will be pinged.")
+			.setRequired(false))
 		.addIntegerOption(option =>
 			option.setName('interval')
 			.setDescription("How many weeks apart should it ping")
@@ -41,7 +45,8 @@ module.exports = {
 			.setRequired(false)),
 	async execute(interaction) {
 		reminder = new Reminder(interaction.channel.id, interaction.options.getInteger('day'), interaction.options.getInteger('hour'), 
-								interaction.options.getString('name'), interaction.options.getString('description'), interaction.options.getRole('role').id);
+								interaction.options.getString('name'), interaction.options.getString('description'), interaction.options.getRole('role')?.id, 
+								interaction.options.getUser('mention')?.id, interaction.options.getInteger('interval'));
 		reminder.save(interaction);
 		console.log(reminder);
 	},

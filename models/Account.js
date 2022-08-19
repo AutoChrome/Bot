@@ -7,7 +7,7 @@ class Account {
     constructor(id) {
         this.user_id = id;
 
-        try{
+        try {
             const file = fs.readFileSync(`./members/${id}/main.json`, function(error) {
                 if(error){
                     console.log(error);
@@ -15,7 +15,7 @@ class Account {
             });
         
             this.account = JSON.parse(file);
-        }catch(error){
+        } catch(error){
             console.log(error);
             this.account = {error:true}
         }

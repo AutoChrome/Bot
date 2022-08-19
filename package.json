@@ -10,6 +10,7 @@
     "eslint": "^8.3.0",
     "node-fetch": "^2.6.6",
     "pg": "^8.7.3",
+    "pg-promise": "^10.11.1",
     "pretty": "^2.0.0"
   },
   "scripts": {

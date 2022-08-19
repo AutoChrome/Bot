@@ -2,9 +2,9 @@ const { Client, Collection, GatewayIntentBits, Routes } = require('discord.js');
 const { token, clientId, guildId } = require('./config.json');
 const fs = require('fs');
 const https = require('https');
-const pretty = require("pretty");
+const pgp = require('pg-promise')();
 const { REST } = require('@discordjs/rest');
-const { Account } = require('./models/Account.js');
+const { Reminder } = require('./models/Reminder.js');
 const utilities = require('./utilities.js');
 const { username, password, database, host, port } = require('./config.json');
 const { Pool } = require('pg');
@@ -46,8 +46,19 @@ function remind() {
         password: password,
         port: port
     });
-    // var channel = client.channels.cache.get('1008024346087936030');
-    // channel.send('Why Hello <@89770140769480704>')
+
+    db.query('SELECT * FROM reminders WHERE day = $1 AND hour = $2', [today.getDay(), today.getHours()], function(error, result) {
+        if (result.rowCount > 0) {
+            result.rows.forEach(function(row){
+                var channel = client.channels.cache.get(row.channel_id);
+                reminder = new Reminder(row.channel_id, row.day, row.hour, row.name, row.description, row.role_id, row.interval, row.current_interval);
+                reminder.send(channel, row.id);
+            });
+        }
+    });
+
+    db.end();
+    
     return true;
 }
 
@@ -75,14 +86,25 @@ rest = new REST({ version:'10'}).setToken(token);
 rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
 	.then(() => console.log('Successfully registered application commands.'))
 	.catch(console.error);
-
 /*
     Event registration
 */
 
-client.once('ready', () => {
-    console.log("Ready!");
+client.once('ready', async function() {
+    const connection = {
+        user: username,
+        host: host,
+        database: database,
+        password: password,
+        port: port
+    };
+    
+    //Postgres-promise object
+    const db = pgp(connection);
+    await utilities.checkMonsterList(db);
+    await utilities.importAccount(db, 91854222483542016);
     remind();
+    console.log("Ready!");
 });
 
 client.on('messageCreate', function(message){

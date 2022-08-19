@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Client } = require('discord.js');
 const { Account } = require('../models/Account.js');
+const utilities = require('../utilities.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,8 +11,17 @@ module.exports = {
             .setDescription("The monster you wish to view")
             .setRequired(true)),
 	async execute(interaction) {
-		console.log(`interaction: ${interaction.user.id}`)
-		account = new Account(interaction.user.id);
-		console.log(account);
+		account = new Account(interaction.user.id).account;
+		monsters = [];
+		id = utilities.getMonsterByName(interaction.options.getString('monster'));
+		console.log(id);
+		for(let i in account.unit_list) {
+			monster = account.unit_list[i];
+			if(monster.unit_master_id == id) {
+				monsters.push(monster);
+			}
+		}
+
+		console.log(monsters.length);
 	},
 };
